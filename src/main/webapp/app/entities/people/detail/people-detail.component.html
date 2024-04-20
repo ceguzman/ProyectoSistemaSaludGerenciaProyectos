@@ -1,0 +1,68 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (people()) {
+      <div>
+        <h2 data-cy="peopleDetailsHeading"><span>People</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ people()!.id }}</span>
+          </dd>
+          <dt><span>Document Number</span></dt>
+          <dd>
+            <span>{{ people()!.documentNumber }}</span>
+          </dd>
+          <dt><span>First Name</span></dt>
+          <dd>
+            <span>{{ people()!.firstName }}</span>
+          </dd>
+          <dt><span>First Surname</span></dt>
+          <dd>
+            <span>{{ people()!.firstSurname }}</span>
+          </dd>
+          <dt><span>Second Name</span></dt>
+          <dd>
+            <span>{{ people()!.secondName }}</span>
+          </dd>
+          <dt><span>Second Surname</span></dt>
+          <dd>
+            <span>{{ people()!.secondSurname }}</span>
+          </dd>
+          <dt><span>Type Document</span></dt>
+          <dd>
+            @if (people()!.typeDocument) {
+              <div>
+                <a [routerLink]="['/type-document', people()!.typeDocument?.id, 'view']">{{ people()!.typeDocument?.documentName }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span>Type Specialist</span></dt>
+          <dd>
+            @if (people()!.typeSpecialist) {
+              <div>
+                <a [routerLink]="['/type-specialist', people()!.typeSpecialist?.id, 'view']">{{
+                  people()!.typeSpecialist?.specialistType
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/people', people()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

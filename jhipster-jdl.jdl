@@ -1,0 +1,89 @@
+enum State {
+	ACTIVE,
+    INACTIVE
+}
+
+entity People {
+	documentNumber String  required maxlength(255),
+    firstName String required maxlength(50),
+    firstSurname String required maxlength(50),
+    secondName String  maxlength(50),
+    secondSurname String  maxlength(50),
+}
+
+entity TypeDocument {
+	initials String required  maxlength(20) unique,
+    documentName String  required maxlength(20) unique,
+    stateTypeDocument State required
+}
+
+relationship OneToMany {
+	TypeDocument{people} to People{typeDocument(documentName) required}
+}
+
+entity TypeSpecialist {
+ specialistType String required maxlength(50) unique,
+ stateSpecialist State required
+}
+
+entity MedicalAppointments {
+dateMedical LocalDate required
+}
+
+relationship OneToMany {
+	TypeSpecialist{medicalsAppointments} to MedicalAppointments{typeSpecialist(specialistType) required}
+}
+
+relationship OneToMany {
+	TypeSpecialist{people} to People{typeSpecialist(specialistType) required}
+}
+
+entity ClinicHistory {
+dateClinic LocalDate required
+}
+
+entity TypeDiseases {
+ diseasesType String required maxlength(200) unique
+}
+
+relationship OneToMany {
+	TypeDiseases{clinicHistorys} to ClinicHistory{typeDisease(diseasesType) required}
+}
+
+relationship OneToMany {
+	People{clinicHistorys} to ClinicHistory{people(documentNumber) required}
+}
+
+entity MedicalAuthorization {
+	detailAuthorization String required maxlength(50),
+    stateAuthorization State required,
+    dateAuthorization LocalDate required 
+}
+
+relationship OneToMany {
+	ClinicHistory{medicalAuthorizations} to MedicalAuthorization{clinicHistory(dateClinic) required}
+}
+
+entity MedicalProcedures {
+	typeProcedures String required maxlength(50),
+    description String required maxlength(50),
+    dateProcedures LocalDate required
+}
+
+relationship OneToMany {
+	MedicalAuthorization{medicalProcedures} to MedicalProcedures{medicalAuthorization(detailAuthorization) required}
+}
+
+entity MedicationRequest {
+	name String required maxlength(255),
+    amount Integer required max(10),
+    milligrams Integer max(10)
+}
+
+relationship OneToMany {
+	MedicalAuthorization{medicationRequests} to MedicationRequest{medicalAuthorization(detailAuthorization) required}
+}
+
+dto * with mapstruct
+service * with serviceClass
+paginate  * with pagination

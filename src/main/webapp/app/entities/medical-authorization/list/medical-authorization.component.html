@@ -1,0 +1,144 @@
+<div>
+  <h2 id="page-heading" data-cy="MedicalAuthorizationHeading">
+    <span>Medical Authorizations</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-medical-authorization"
+        [routerLink]="['/medical-authorization/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span>Crear nuevo Medical Authorization</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (medicalAuthorizations?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>Ningún Medical Authorizations encontrado</span>
+    </div>
+  }
+
+  @if (medicalAuthorizations && medicalAuthorizations.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="detailAuthorization">
+              <div class="d-flex">
+                <span>Detail Authorization</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="stateAuthorization">
+              <div class="d-flex">
+                <span>State Authorization</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="dateAuthorization">
+              <div class="d-flex">
+                <span>Date Authorization</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="clinicHistory.dateClinic">
+              <div class="d-flex">
+                <span>Clinic History</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (medicalAuthorization of medicalAuthorizations; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/medical-authorization', medicalAuthorization.id, 'view']">{{ medicalAuthorization.id }}</a>
+              </td>
+              <td>{{ medicalAuthorization.detailAuthorization }}</td>
+              <td>{{ { null: '', ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }[medicalAuthorization.stateAuthorization ?? 'null'] }}</td>
+              <td>{{ medicalAuthorization.dateAuthorization | formatMediumDate }}</td>
+              <td>
+                @if (medicalAuthorization.clinicHistory) {
+                  <div>
+                    <a [routerLink]="['/clinic-history', medicalAuthorization.clinicHistory.id, 'view']">{{
+                      medicalAuthorization.clinicHistory.dateClinic
+                    }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/medical-authorization', medicalAuthorization.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">Vista</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/medical-authorization', medicalAuthorization.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(medicalAuthorization)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Eliminar</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (medicalAuthorizations && medicalAuthorizations.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

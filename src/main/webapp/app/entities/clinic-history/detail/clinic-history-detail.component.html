@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (clinicHistory()) {
+      <div>
+        <h2 data-cy="clinicHistoryDetailsHeading"><span>Clinic History</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ clinicHistory()!.id }}</span>
+          </dd>
+          <dt><span>Date Clinic</span></dt>
+          <dd>
+            <span>{{ clinicHistory()!.dateClinic | formatMediumDate }}</span>
+          </dd>
+          <dt><span>Type Disease</span></dt>
+          <dd>
+            @if (clinicHistory()!.typeDisease) {
+              <div>
+                <a [routerLink]="['/type-diseases', clinicHistory()!.typeDisease?.id, 'view']">{{
+                  clinicHistory()!.typeDisease?.diseasesType
+                }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span>People</span></dt>
+          <dd>
+            @if (clinicHistory()!.people) {
+              <div>
+                <a [routerLink]="['/people', clinicHistory()!.people?.id, 'view']">{{ clinicHistory()!.people?.documentNumber }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/clinic-history', clinicHistory()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

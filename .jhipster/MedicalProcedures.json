@@ -1,0 +1,41 @@
+{
+  "annotations": {
+    "changelogDate": "20240420214834"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "typeProcedures",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "dateProcedures",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "MedicalProcedures",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "detailAuthorization",
+      "otherEntityName": "medicalAuthorization",
+      "otherEntityRelationshipName": "medicalProcedures",
+      "relationshipName": "medicalAuthorization",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (medicationRequest()) {
+      <div>
+        <h2 data-cy="medicationRequestDetailsHeading"><span>Medication Request</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ medicationRequest()!.id }}</span>
+          </dd>
+          <dt><span>Name</span></dt>
+          <dd>
+            <span>{{ medicationRequest()!.name }}</span>
+          </dd>
+          <dt><span>Amount</span></dt>
+          <dd>
+            <span>{{ medicationRequest()!.amount }}</span>
+          </dd>
+          <dt><span>Milligrams</span></dt>
+          <dd>
+            <span>{{ medicationRequest()!.milligrams }}</span>
+          </dd>
+          <dt><span>Medical Authorization</span></dt>
+          <dd>
+            @if (medicationRequest()!.medicalAuthorization) {
+              <div>
+                <a [routerLink]="['/medical-authorization', medicationRequest()!.medicalAuthorization?.id, 'view']">{{
+                  medicationRequest()!.medicalAuthorization?.detailAuthorization
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/medication-request', medicationRequest()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

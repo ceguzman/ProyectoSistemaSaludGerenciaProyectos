@@ -1,0 +1,137 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-medical-procedures-heading" data-cy="MedicalProceduresCreateUpdateHeading">Crear o editar Medical Procedures</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_typeProcedures">Type Procedures</label>
+          <input
+            type="text"
+            class="form-control"
+            name="typeProcedures"
+            id="field_typeProcedures"
+            data-cy="typeProcedures"
+            formControlName="typeProcedures"
+          />
+          @if (
+            editForm.get('typeProcedures')!.invalid && (editForm.get('typeProcedures')!.dirty || editForm.get('typeProcedures')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('typeProcedures')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+              @if (editForm.get('typeProcedures')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo no puede superar más de 50 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+          @if (editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)) {
+            <div>
+              @if (editForm.get('description')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+              @if (editForm.get('description')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo no puede superar más de 50 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_dateProcedures">Date Procedures</label>
+          <div class="input-group">
+            <input
+              id="field_dateProcedures"
+              data-cy="dateProcedures"
+              type="text"
+              class="form-control"
+              name="dateProcedures"
+              ngbDatepicker
+              #dateProceduresDp="ngbDatepicker"
+              formControlName="dateProcedures"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateProceduresDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          @if (
+            editForm.get('dateProcedures')!.invalid && (editForm.get('dateProcedures')!.dirty || editForm.get('dateProcedures')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('dateProcedures')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_medicalAuthorization">Medical Authorization</label>
+          <select
+            class="form-control"
+            id="field_medicalAuthorization"
+            data-cy="medicalAuthorization"
+            name="medicalAuthorization"
+            formControlName="medicalAuthorization"
+            [compareWith]="compareMedicalAuthorization"
+          >
+            @if (editForm.get(['medicalAuthorization'])!.value == null) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (medicalAuthorizationOption of medicalAuthorizationsSharedCollection; track $index) {
+              <option [ngValue]="medicalAuthorizationOption">{{ medicalAuthorizationOption.detailAuthorization }}</option>
+            }
+          </select>
+        </div>
+        @if (
+          editForm.get(['medicalAuthorization'])!.invalid &&
+          (editForm.get(['medicalAuthorization'])!.dirty || editForm.get(['medicalAuthorization'])!.touched)
+        ) {
+          <div>
+            @if (editForm.get(['medicalAuthorization'])?.errors?.required) {
+              <small class="form-text text-danger">Este campo es obligatorio.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

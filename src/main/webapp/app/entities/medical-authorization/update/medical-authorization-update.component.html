@@ -1,0 +1,142 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-medical-authorization-heading" data-cy="MedicalAuthorizationCreateUpdateHeading">Crear o editar Medical Authorization</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_detailAuthorization">Detail Authorization</label>
+          <input
+            type="text"
+            class="form-control"
+            name="detailAuthorization"
+            id="field_detailAuthorization"
+            data-cy="detailAuthorization"
+            formControlName="detailAuthorization"
+          />
+          @if (
+            editForm.get('detailAuthorization')!.invalid &&
+            (editForm.get('detailAuthorization')!.dirty || editForm.get('detailAuthorization')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('detailAuthorization')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+              @if (editForm.get('detailAuthorization')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo no puede superar más de 50 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_stateAuthorization">State Authorization</label>
+          <select
+            class="form-control"
+            name="stateAuthorization"
+            formControlName="stateAuthorization"
+            id="field_stateAuthorization"
+            data-cy="stateAuthorization"
+          >
+            <option [ngValue]="null"></option>
+            @for (state of stateValues; track $index) {
+              <option [value]="state">{{ { null: '', ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }[state] }}</option>
+            }
+          </select>
+          @if (
+            editForm.get('stateAuthorization')!.invalid &&
+            (editForm.get('stateAuthorization')!.dirty || editForm.get('stateAuthorization')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('stateAuthorization')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_dateAuthorization">Date Authorization</label>
+          <div class="input-group">
+            <input
+              id="field_dateAuthorization"
+              data-cy="dateAuthorization"
+              type="text"
+              class="form-control"
+              name="dateAuthorization"
+              ngbDatepicker
+              #dateAuthorizationDp="ngbDatepicker"
+              formControlName="dateAuthorization"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateAuthorizationDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          @if (
+            editForm.get('dateAuthorization')!.invalid &&
+            (editForm.get('dateAuthorization')!.dirty || editForm.get('dateAuthorization')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('dateAuthorization')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_clinicHistory">Clinic History</label>
+          <select
+            class="form-control"
+            id="field_clinicHistory"
+            data-cy="clinicHistory"
+            name="clinicHistory"
+            formControlName="clinicHistory"
+            [compareWith]="compareClinicHistory"
+          >
+            @if (editForm.get(['clinicHistory'])!.value == null) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (clinicHistoryOption of clinicHistoriesSharedCollection; track $index) {
+              <option [ngValue]="clinicHistoryOption">{{ clinicHistoryOption.dateClinic }}</option>
+            }
+          </select>
+        </div>
+        @if (
+          editForm.get(['clinicHistory'])!.invalid && (editForm.get(['clinicHistory'])!.dirty || editForm.get(['clinicHistory'])!.touched)
+        ) {
+          <div>
+            @if (editForm.get(['clinicHistory'])?.errors?.required) {
+              <small class="form-text text-danger">Este campo es obligatorio.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

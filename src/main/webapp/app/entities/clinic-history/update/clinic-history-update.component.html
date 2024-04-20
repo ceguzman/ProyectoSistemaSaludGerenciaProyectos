@@ -1,0 +1,110 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-clinic-history-heading" data-cy="ClinicHistoryCreateUpdateHeading">Crear o editar Clinic History</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_dateClinic">Date Clinic</label>
+          <div class="input-group">
+            <input
+              id="field_dateClinic"
+              data-cy="dateClinic"
+              type="text"
+              class="form-control"
+              name="dateClinic"
+              ngbDatepicker
+              #dateClinicDp="ngbDatepicker"
+              formControlName="dateClinic"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateClinicDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+          @if (editForm.get('dateClinic')!.invalid && (editForm.get('dateClinic')!.dirty || editForm.get('dateClinic')!.touched)) {
+            <div>
+              @if (editForm.get('dateClinic')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_typeDisease">Type Disease</label>
+          <select
+            class="form-control"
+            id="field_typeDisease"
+            data-cy="typeDisease"
+            name="typeDisease"
+            formControlName="typeDisease"
+            [compareWith]="compareTypeDiseases"
+          >
+            @if (editForm.get(['typeDisease'])!.value == null) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (typeDiseasesOption of typeDiseasesSharedCollection; track $index) {
+              <option [ngValue]="typeDiseasesOption">{{ typeDiseasesOption.diseasesType }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['typeDisease'])!.invalid && (editForm.get(['typeDisease'])!.dirty || editForm.get(['typeDisease'])!.touched)) {
+          <div>
+            @if (editForm.get(['typeDisease'])?.errors?.required) {
+              <small class="form-text text-danger">Este campo es obligatorio.</small>
+            }
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_people">People</label>
+          <select
+            class="form-control"
+            id="field_people"
+            data-cy="people"
+            name="people"
+            formControlName="people"
+            [compareWith]="comparePeople"
+          >
+            @if (editForm.get(['people'])!.value == null) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (peopleOption of peopleSharedCollection; track $index) {
+              <option [ngValue]="peopleOption">{{ peopleOption.documentNumber }}</option>
+            }
+          </select>
+        </div>
+        @if (editForm.get(['people'])!.invalid && (editForm.get(['people'])!.dirty || editForm.get(['people'])!.touched)) {
+          <div>
+            @if (editForm.get(['people'])?.errors?.required) {
+              <small class="form-text text-danger">Este campo es obligatorio.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

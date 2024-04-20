@@ -1,0 +1,190 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-people-heading" data-cy="PeopleCreateUpdateHeading">Crear o editar People</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_documentNumber">Document Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="documentNumber"
+            id="field_documentNumber"
+            data-cy="documentNumber"
+            formControlName="documentNumber"
+          />
+          @if (
+            editForm.get('documentNumber')!.invalid && (editForm.get('documentNumber')!.dirty || editForm.get('documentNumber')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('documentNumber')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+              @if (editForm.get('documentNumber')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo no puede superar más de 255 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_firstName">First Name</label>
+          <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
+          @if (editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)) {
+            <div>
+              @if (editForm.get('firstName')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+              @if (editForm.get('firstName')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo no puede superar más de 50 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_firstSurname">First Surname</label>
+          <input
+            type="text"
+            class="form-control"
+            name="firstSurname"
+            id="field_firstSurname"
+            data-cy="firstSurname"
+            formControlName="firstSurname"
+          />
+          @if (editForm.get('firstSurname')!.invalid && (editForm.get('firstSurname')!.dirty || editForm.get('firstSurname')!.touched)) {
+            <div>
+              @if (editForm.get('firstSurname')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+              @if (editForm.get('firstSurname')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo no puede superar más de 50 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_secondName">Second Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="secondName"
+            id="field_secondName"
+            data-cy="secondName"
+            formControlName="secondName"
+          />
+          @if (editForm.get('secondName')!.invalid && (editForm.get('secondName')!.dirty || editForm.get('secondName')!.touched)) {
+            <div>
+              @if (editForm.get('secondName')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo no puede superar más de 50 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_secondSurname">Second Surname</label>
+          <input
+            type="text"
+            class="form-control"
+            name="secondSurname"
+            id="field_secondSurname"
+            data-cy="secondSurname"
+            formControlName="secondSurname"
+          />
+          @if (editForm.get('secondSurname')!.invalid && (editForm.get('secondSurname')!.dirty || editForm.get('secondSurname')!.touched)) {
+            <div>
+              @if (editForm.get('secondSurname')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo no puede superar más de 50 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_typeDocument">Type Document</label>
+          <select
+            class="form-control"
+            id="field_typeDocument"
+            data-cy="typeDocument"
+            name="typeDocument"
+            formControlName="typeDocument"
+            [compareWith]="compareTypeDocument"
+          >
+            @if (editForm.get(['typeDocument'])!.value == null) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (typeDocumentOption of typeDocumentsSharedCollection; track $index) {
+              <option [ngValue]="typeDocumentOption">{{ typeDocumentOption.documentName }}</option>
+            }
+          </select>
+        </div>
+        @if (
+          editForm.get(['typeDocument'])!.invalid && (editForm.get(['typeDocument'])!.dirty || editForm.get(['typeDocument'])!.touched)
+        ) {
+          <div>
+            @if (editForm.get(['typeDocument'])?.errors?.required) {
+              <small class="form-text text-danger">Este campo es obligatorio.</small>
+            }
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_typeSpecialist">Type Specialist</label>
+          <select
+            class="form-control"
+            id="field_typeSpecialist"
+            data-cy="typeSpecialist"
+            name="typeSpecialist"
+            formControlName="typeSpecialist"
+            [compareWith]="compareTypeSpecialist"
+          >
+            @if (editForm.get(['typeSpecialist'])!.value == null) {
+              <option [ngValue]="null" selected></option>
+            }
+            @for (typeSpecialistOption of typeSpecialistsSharedCollection; track $index) {
+              <option [ngValue]="typeSpecialistOption">{{ typeSpecialistOption.specialistType }}</option>
+            }
+          </select>
+        </div>
+        @if (
+          editForm.get(['typeSpecialist'])!.invalid &&
+          (editForm.get(['typeSpecialist'])!.dirty || editForm.get(['typeSpecialist'])!.touched)
+        ) {
+          <div>
+            @if (editForm.get(['typeSpecialist'])?.errors?.required) {
+              <small class="form-text text-danger">Este campo es obligatorio.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

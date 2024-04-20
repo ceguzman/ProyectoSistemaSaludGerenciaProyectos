@@ -11,7 +11,22 @@
     <property name="datetimeType" value="datetime" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214827_added_entity_People.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214828_added_entity_TypeDocument.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214829_added_entity_TypeSpecialist.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214830_added_entity_MedicalAppointments.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214831_added_entity_ClinicHistory.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214832_added_entity_TypeDiseases.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214833_added_entity_MedicalAuthorization.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214834_added_entity_MedicalProcedures.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214835_added_entity_MedicationRequest.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20240420214827_added_entity_constraints_People.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214830_added_entity_constraints_MedicalAppointments.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214831_added_entity_constraints_ClinicHistory.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214833_added_entity_constraints_MedicalAuthorization.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214834_added_entity_constraints_MedicalProcedures.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240420214835_added_entity_constraints_MedicationRequest.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

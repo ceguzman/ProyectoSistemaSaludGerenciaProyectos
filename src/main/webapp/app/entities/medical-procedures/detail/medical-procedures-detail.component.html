@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (medicalProcedures()) {
+      <div>
+        <h2 data-cy="medicalProceduresDetailsHeading"><span>Medical Procedures</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span>ID</span></dt>
+          <dd>
+            <span>{{ medicalProcedures()!.id }}</span>
+          </dd>
+          <dt><span>Type Procedures</span></dt>
+          <dd>
+            <span>{{ medicalProcedures()!.typeProcedures }}</span>
+          </dd>
+          <dt><span>Description</span></dt>
+          <dd>
+            <span>{{ medicalProcedures()!.description }}</span>
+          </dd>
+          <dt><span>Date Procedures</span></dt>
+          <dd>
+            <span>{{ medicalProcedures()!.dateProcedures | formatMediumDate }}</span>
+          </dd>
+          <dt><span>Medical Authorization</span></dt>
+          <dd>
+            @if (medicalProcedures()!.medicalAuthorization) {
+              <div>
+                <a [routerLink]="['/medical-authorization', medicalProcedures()!.medicalAuthorization?.id, 'view']">{{
+                  medicalProcedures()!.medicalAuthorization?.detailAuthorization
+                }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/medical-procedures', medicalProcedures()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>
