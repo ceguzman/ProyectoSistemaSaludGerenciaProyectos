@@ -1,0 +1,55 @@
+{
+  "annotations": {
+    "changelogDate": "20240420214833"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "detailAuthorization",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "stateAuthorization",
+      "fieldType": "State",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVE,INACTIVE"
+    },
+    {
+      "fieldName": "dateAuthorization",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "MedicalAuthorization",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "medicalProcedures",
+      "otherEntityRelationshipName": "medicalAuthorization",
+      "relationshipName": "medicalProcedures",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "medicationRequest",
+      "otherEntityRelationshipName": "medicalAuthorization",
+      "relationshipName": "medicationRequests",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "dateClinic",
+      "otherEntityName": "clinicHistory",
+      "otherEntityRelationshipName": "medicalAuthorizations",
+      "relationshipName": "clinicHistory",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

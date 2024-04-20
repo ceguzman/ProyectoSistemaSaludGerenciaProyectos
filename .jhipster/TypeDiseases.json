@@ -1,0 +1,28 @@
+{
+  "annotations": {
+    "changelogDate": "20240420214832"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "diseasesType",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "200"
+    }
+  ],
+  "name": "TypeDiseases",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "clinicHistory",
+      "otherEntityRelationshipName": "typeDisease",
+      "relationshipName": "clinicHistorys",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

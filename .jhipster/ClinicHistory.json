@@ -1,0 +1,45 @@
+{
+  "annotations": {
+    "changelogDate": "20240420214831"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "dateClinic",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "ClinicHistory",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "medicalAuthorization",
+      "otherEntityRelationshipName": "clinicHistory",
+      "relationshipName": "medicalAuthorizations",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "diseasesType",
+      "otherEntityName": "typeDiseases",
+      "otherEntityRelationshipName": "clinicHistorys",
+      "relationshipName": "typeDisease",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "documentNumber",
+      "otherEntityName": "people",
+      "otherEntityRelationshipName": "clinicHistorys",
+      "relationshipName": "people",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

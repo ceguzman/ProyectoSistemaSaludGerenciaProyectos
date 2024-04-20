@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity ClinicHistory.
+    -->
+    <changeSet id="20240420214831-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="type_disease_id"
+                                 baseTableName="clinic_history"
+                                 constraintName="fk_clinic_history__type_disease_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="type_diseases"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="people_id"
+                                 baseTableName="clinic_history"
+                                 constraintName="fk_clinic_history__people_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="people"
+                                 />
+    </changeSet>
+</databaseChangeLog>

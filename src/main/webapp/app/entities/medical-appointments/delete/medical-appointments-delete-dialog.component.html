@@ -1,0 +1,24 @@
+@if (medicalAppointments) {
+  <form name="deleteForm" (ngSubmit)="confirmDelete(medicalAppointments.id!)">
+    <div class="modal-header">
+      <h4 class="modal-title" data-cy="medicalAppointmentsDeleteDialogHeading">Confirmar operación de borrado</h4>
+
+      <span class="btn btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()"></span>
+    </div>
+
+    <div class="modal-body">
+      <jhi-alert-error></jhi-alert-error>
+      <p id="jhi-delete-medicalAppointments-heading">¿Seguro que quiere eliminar Medical Appointments {{ medicalAppointments.id }}?</p>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+      </button>
+
+      <button id="jhi-confirm-delete-medicalAppointments" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
+        <fa-icon icon="times"></fa-icon>&nbsp;<span>Eliminar</span>
+      </button>
+    </div>
+  </form>
+}

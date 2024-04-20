@@ -1,0 +1,128 @@
+<div>
+  <h2 id="page-heading" data-cy="MedicalAppointmentsHeading">
+    <span>Medical Appointments</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-medical-appointments"
+        [routerLink]="['/medical-appointments/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span>Crear nuevo Medical Appointments</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (medicalAppointments?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>Ningún Medical Appointments encontrado</span>
+    </div>
+  }
+
+  @if (medicalAppointments && medicalAppointments.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="dateMedical">
+              <div class="d-flex">
+                <span>Date Medical</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="typeSpecialist.specialistType">
+              <div class="d-flex">
+                <span>Type Specialist</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (medicalAppointments of medicalAppointments; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/medical-appointments', medicalAppointments.id, 'view']">{{ medicalAppointments.id }}</a>
+              </td>
+              <td>{{ medicalAppointments.dateMedical | formatMediumDate }}</td>
+              <td>
+                @if (medicalAppointments.typeSpecialist) {
+                  <div>
+                    <a [routerLink]="['/type-specialist', medicalAppointments.typeSpecialist.id, 'view']">{{
+                      medicalAppointments.typeSpecialist.specialistType
+                    }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/medical-appointments', medicalAppointments.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">Vista</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/medical-appointments', medicalAppointments.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(medicalAppointments)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Eliminar</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (medicalAppointments && medicalAppointments.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,29 @@
+{
+  "annotations": {
+    "changelogDate": "20240420214830"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "dateMedical",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "MedicalAppointments",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "specialistType",
+      "otherEntityName": "typeSpecialist",
+      "otherEntityRelationshipName": "medicalsAppointments",
+      "relationshipName": "typeSpecialist",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

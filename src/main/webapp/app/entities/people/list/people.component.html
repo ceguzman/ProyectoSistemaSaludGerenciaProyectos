@@ -1,0 +1,163 @@
+<div>
+  <h2 id="page-heading" data-cy="PeopleHeading">
+    <span>People</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-people"
+        [routerLink]="['/people/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span>Crear nuevo People</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (people?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>Ningún People encontrado</span>
+    </div>
+  }
+
+  @if (people && people.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="documentNumber">
+              <div class="d-flex">
+                <span>Document Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="firstName">
+              <div class="d-flex">
+                <span>First Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="firstSurname">
+              <div class="d-flex">
+                <span>First Surname</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="secondName">
+              <div class="d-flex">
+                <span>Second Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="secondSurname">
+              <div class="d-flex">
+                <span>Second Surname</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="typeDocument.documentName">
+              <div class="d-flex">
+                <span>Type Document</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="typeSpecialist.specialistType">
+              <div class="d-flex">
+                <span>Type Specialist</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (people of people; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/people', people.id, 'view']">{{ people.id }}</a>
+              </td>
+              <td>{{ people.documentNumber }}</td>
+              <td>{{ people.firstName }}</td>
+              <td>{{ people.firstSurname }}</td>
+              <td>{{ people.secondName }}</td>
+              <td>{{ people.secondSurname }}</td>
+              <td>
+                @if (people.typeDocument) {
+                  <div>
+                    <a [routerLink]="['/type-document', people.typeDocument.id, 'view']">{{ people.typeDocument.documentName }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (people.typeSpecialist) {
+                  <div>
+                    <a [routerLink]="['/type-specialist', people.typeSpecialist.id, 'view']">{{ people.typeSpecialist.specialistType }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/people', people.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">Vista</span>
+                  </a>
+
+                  <a [routerLink]="['/people', people.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(people)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Eliminar</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (people && people.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

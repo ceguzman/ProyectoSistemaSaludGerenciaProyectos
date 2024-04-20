@@ -1,0 +1,41 @@
+{
+  "annotations": {
+    "changelogDate": "20240420214829"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "specialistType",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "stateSpecialist",
+      "fieldType": "State",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVE,INACTIVE"
+    }
+  ],
+  "name": "TypeSpecialist",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "medicalAppointments",
+      "otherEntityRelationshipName": "typeSpecialist",
+      "relationshipName": "medicalsAppointments",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "people",
+      "otherEntityRelationshipName": "typeSpecialist",
+      "relationshipName": "people",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

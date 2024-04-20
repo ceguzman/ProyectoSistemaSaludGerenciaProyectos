@@ -1,0 +1,42 @@
+{
+  "annotations": {
+    "changelogDate": "20240420214835"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "max"],
+      "fieldValidateRulesMax": "10"
+    },
+    {
+      "fieldName": "milligrams",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["max"],
+      "fieldValidateRulesMax": "10"
+    }
+  ],
+  "name": "MedicationRequest",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "detailAuthorization",
+      "otherEntityName": "medicalAuthorization",
+      "otherEntityRelationshipName": "medicationRequests",
+      "relationshipName": "medicalAuthorization",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}
